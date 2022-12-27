@@ -15,37 +15,37 @@ import java.util.Iterator;
 
 public class ProsesListesi {
 
-	public List<ProsesYonetici> prosesler = new ArrayList<ProsesYonetici>();
+public List<ProsesYonetici> prosesler = new ArrayList<ProsesYonetici>();
 	
 	
 	//Proses listesi oluşurken dosyadan okuma işlemi yapıp bu bilgiler eşliğinde prosesleri oluşturup
 	//Proses listesine atar.
-	public ProsesListesi() throws IOException{
-		int id = 0;
-		File file =new File("giriş.txt");	//Dosya oluşturma
+public ProsesListesi() throws IOException{
+	int id = 0;
+	File file =new File("giriş.txt");	//Dosya oluşturma
+	
+	FileReader freader = new FileReader(file);	//Dosyayı okuma
+	String line;
+	BufferedReader bReader = new BufferedReader(freader);
+	
+	while ((line = bReader.readLine())!= null) {	//Tüm satırları okuma
+		String[] dizi= line.split(", ");	//Vırgül ve boşlukların dışındaki karakterler çekildi
 		
-		FileReader freader = new FileReader(file);	//Dosyayı okuma
-		String line;
-		BufferedReader bReader = new BufferedReader(freader);
-		
-		while ((line = bReader.readLine())!= null) {	//Tüm satırları okuma
-			String[] dizi= line.split(", ");	//Vırgül ve boşlukların dışındaki karakterler çekildi
+		for (int i=0;i<dizi.length;i++) {
+			ProsesYonetici p = new ProsesYonetici();
+			p.id = id++;	//Proseslere 0'dan başlayıp id ataması yapar.
+			p.varisZamani = Integer.parseInt(dizi[i]);
+			p.oncelik = Integer.parseInt(dizi[++i]);
+			p.patlamaZamani = Integer.parseInt(dizi[++i]);
 			
-			for (int i=0;i<dizi.length;i++) {
-				ProsesYonetici p = new ProsesYonetici();
-				p.id = id++;	//Proseslere 0'dan başlayıp id ataması yapar.
-				p.varisZamani = Integer.parseInt(dizi[i]);
-				p.oncelik = Integer.parseInt(dizi[++i]);
-				p.patlamaZamani = Integer.parseInt(dizi[++i]);
-				
-				prosesler.add(p);
-				
-			}
-			
+			prosesler.add(p);
 			
 		}
-		bReader.close();
+		
 		
 	}
+	bReader.close();
+	
+}
 	
 }
